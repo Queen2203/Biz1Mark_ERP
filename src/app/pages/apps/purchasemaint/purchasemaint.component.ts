@@ -104,11 +104,12 @@ export class PurchasemaintComponent implements OnInit {
 
   ngOnInit(): void {
     this.getStoreList()
-    this.getpurchaseData('All')
+    // this.getpurchaseData('All')
     this.getBankAccts()
     this.getproducts()
     this.getvenderlist()
     this.getcategory()
+    this.getPurchaseData()
   }
 
   visibleIndex = -1
@@ -126,26 +127,35 @@ export class PurchasemaintComponent implements OnInit {
       console.log('stores', this.stores)
     })
   }
-  getpurchaseData(billstatus) {
-    var x = new Date()
-    x.setDate(1)
-    x.setMonth(x.getMonth() - 1)
-    this.Ordprd.push({
-      companyId: this.CompanyId,
-      searchId: this.ordId,
-      UserID: this.users[0].id,
-      billstatus: billstatus,
-      billId: this.billId,
-      numRecords: this.numRecords,
-      dateFrom: x,
+  PurchaseDatatest: any
+  getPurchaseData() {
+    this.Auth.getpurchase(this.CompanyId).subscribe(data => {
+      this.PurchaseDatatest = data['purchasedatatest']
+      // this.tabledata = this.CreditDatatest
+      console.log(this.PurchaseDatatest)
+      // this.isShown = true
     })
-    // console.log("billstatus",this.billstatus)
-    this.Auth.getpurchmaint(this.Ordprd).subscribe(data => {
-      this.purchaseData = data
-      this.filteredvalues = this.purchaseData.ord
-      console.log('purchaseData', this.purchaseData)
-    })
-  }
+  };
+  // getpurchaseData(billstatus) {
+  //   var x = new Date()
+  //   x.setDate(1)
+  //   x.setMonth(x.getMonth() - 1)
+  //   this.Ordprd.push({
+  //     companyId: this.CompanyId,
+  //     searchId: this.ordId,
+  //     UserID: this.users[0].id,
+  //     billstatus: billstatus,
+  //     billId: this.billId,
+  //     numRecords: this.numRecords,
+  //     dateFrom: x,
+  //   })
+  //   // console.log("billstatus",this.billstatus)
+  //   this.Auth.getpurchmaint(this.Ordprd).subscribe(data => {
+  //     this.purchaseData = data
+  //     this.filteredvalues = this.purchaseData.ord
+  //     console.log('purchaseData', this.purchaseData)
+  //   })
+  // }
 
   filteredvalues = []
   filtersearch(): void {
@@ -248,7 +258,7 @@ export class PurchasemaintComponent implements OnInit {
       this.billstatus = 'ALL'
     }
     console.log('val', this.billstatus)
-    this.getpurchaseData(this.billstatus)
+    this.getPurchaseData()
   }
 
   locback1() {
@@ -410,7 +420,7 @@ export class PurchasemaintComponent implements OnInit {
 
   getvenderlist() {
     this.Auth.getvendors((this.companyId = 1)).subscribe(data => {
-      this.vendors = data
+      this.vendors = data['vendors']
       console.log(this.vendors)
     })
   }

@@ -1,9 +1,114 @@
 <!-- <div> -->
   <div class="cui__utils__heading" *ngIf="isShown">
     <strong>Credit Transactions - Index</strong>
-    <button type="button" class="btn btn-primary" (click)="clickpay(1)">Back</button>
+    <button style="width: 80px;margin-left: 750px;height: 30px;" class="btn btn-primary "
+    (click)="clickpay(1)">
+    Back
+    </button>
+    <button type="button" class="btn btn-squared btn-success  pull-right" (click)="showSubItem(index)"> <i
+      class="fa fa-search"></i> Advance Search </button>
+      <div class="row" *ngIf="visibleIndex === index"
+      style="background-color: aliceblue;height: 108px; margin-top: 20px;">
+      <div class="col-xl-2 mt-1 text-left">
+          <ng-template class="w-100" #catrgy let-r="result" let-t="term">
+              <ngb-highlight [result]="r.billTransId" [term]="t"></ngb-highlight>
+          </ng-template>
+          <div style="height: 84%; position: relative;">
+              <input id="typeahead-template" style="height: 100%;" #instance="ngbTypeahead" type="text"
+                  (input)="arrayName = 'creditdaatatest'; searchField = 'billTransId'" autocomplete="off"
+                  class="form-control" [(ngModel)]="cat" placeholder="Transaction ID..."
+                  [ngbTypeahead]="advSearch" [resultTemplate]="catrgy" [inputFormatter]="formatter"
+                  (selectItem)="selectedItem($event.item)" />
+          </div>
+      </div>
+      <div class="col-xl-2">
+          <div>
+              <ng-template class="w-100" #prd let-r="result" let-t="term">
+                  <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+              </ng-template>
+              <div style="height: 84%; position: relative;">
+                  <input id="typeahead-template" style="height: 100%;" #instance="ngbTypeahead" type="text"
+                      (input)="arrayName = 'products'; searchField = 'name'" autocomplete="off"
+                      class="form-control"  placeholder="Search Products..."
+                      [ngbTypeahead]="c_search" [resultTemplate]="prd" [inputFormatter]="formatter"
+                      (selectItem)="selectedItem($event.item)" />
+              </div>
+          </div>
+      </div>
+      <div class="col-xl-2 mt-1 text-left">
+          <ng-template class="w-100" #prdtxt let-r="result" let-t="term">
+              <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+          </ng-template>
+          <div style="height: 84%; position: relative;">
+              <input id="typeahead-template" style="height: 100%;" #instance="ngbTypeahead" type="text"
+                  (input)="arrayName = ''; searchField = 'name'" autocomplete="off" class="form-control"
+                   placeholder="Search Products Text..." [ngbTypeahead]="c_search"
+                  [resultTemplate]="prdtxt" [inputFormatter]="formatter" (selectItem)="selectedItem($event.item)" />
+          </div>
+      </div>
+      <div class="col-xl-2 mt-1 text-left">
+          <input type="text" class="form-control" placeholder="BillId..">
+      </div>
+      <div class="col-xl-2 mt-1 text-left">
+          <ng-template class="w-100" #vndr let-r="result" let-t="term">
+              <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+          </ng-template>
+          <div style="height: 84%; position: relative;">
+              <input id="typeahead-template" style="height: 100%;" #instance="ngbTypeahead" type="text"
+                  (input)="arrayName ='vendors'; searchField ='name'" autocomplete="off" class="form-control"
+                   placeholder="Search Vendors..." [ngbTypeahead]="c_search"
+                  [resultTemplate]="vndr" [inputFormatter]="formatter" (selectItem)="selectedItem($event.item)" />
+          </div>
+      </div>
+      <div class="col-md-2 mt-1">
+          <select class="form-control">
+              <option value=""> Search spl Order </option>
+              <option value=""> Special Order </option>
+              <option value="">Other Order </option>
+          </select>
+      </div>
+      <div class="col-md-2 mt-1">
+          <select class="form-control">
+              <option value=""> Search Maintenance Order </option>
+              <option value=""> Maintenance Order </option>
+              <option value="">Other Order </option>
+          </select>
+      </div>
+      <div class="col-md-2 mt-1">
+          <select class="form-control">
+              <option value=""> Show 100 Records </option>
+              <option value=""> Show 1 Records </option>
+              <option value="">Show 1000 Records </option>
+              <option value="">Show All Records </option>
+          </select>
+      </div>
+      <div class="col-md-2 mt-1">
+          <select class="form-control">
+              <option value=""> Search Cancel Status </option>
+              <option value=""> Review Closed</option>
+              <option value="">Closed </option>
+              <option value="">Partial </option>
+              <option value="">Open </option>
+          </select>
+      </div>
+      <div class="col-md-2 mt-1">
+          <select class="form-control">
+              <option value=""> Search Review Status </option>
+              <option value=""> Review Closed </option>
+              <option value="">Closed </option>
+              <option value="">Partial </option>
+              <option value="">Open </option>
+          </select>
+      </div>
+      <div class="col-md-2 mt-1">
+          <select class="form-control">
+              <option value=""> Search spl Order </option>
+              <option value=""> Special Order </option>
+              <option value="">Other Order </option>
+          </select>
+      </div>
+    </div><br>
   </div>
-
   <div class="card" *ngIf="isShown"> 
     <div class="card-header card-header-flex" *ngIf="isShown">
       <div ngbDropdown class="col-md-3 pt-2">
@@ -14,12 +119,12 @@
           <button (click)="Billstatus(3)" ngbDropdownItem> Show All Records</button>
         </div>
       </div>
-      <div ngbDropdown class="col-md-3 pt-2">
-        <button class="btn btn-success" id="dropdownBasic1" ngbDropdownToggle>Credit Pay</button>
-        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <button (click)="locback()" ngbDropdownItem>Credit</button>
-          <button routerLink="/apps/creditrepay" ngbDropdownItem> Repay List</button>
-        </div>
+      <div class="col-md-3 pt-2">
+        <!-- <button class="btn btn-success" id="dropdownBasic1" ngbDropdownToggle>Credit Pay</button> -->
+        <!-- <div ngbDropdownMenu aria-labelledby="dropdownBasic1"> -->
+          <button class="btn btn-success" style="width: 80px;margin-left: 600px;height: 30px;margin-top: 10px;" (click)="locback()" >Credit</button>
+          <!-- <button routerLink="/apps/creditrepay" ngbDropdownItem> Repay List</button> -->
+        <!-- </div> -->
       </div>
       <!-- </div>  -->
       <div *ngIf="isShown" class="col-md-3 pt-2">
@@ -210,7 +315,7 @@
     <label class="col-md-3 col-form-label" for="formControlRange">Transaction Date<span
         style="color: red;">*</span></label>
     <div class="col-md-3 pt-2">
-      <nz-date-picker class="form-control" [(ngModel)]="date" (ngModelChange)="onChange($event)"></nz-date-picker>
+      <nz-date-picker class="form-control" [(ngModel)]="date" (ngModelChange)="onChangetime($event)"></nz-date-picker>
     </div>
   </div>
 
@@ -299,7 +404,7 @@
     <label class="col-md-3 col-form-label" for="formControlRange">Transaction Date <span
         style="color: red;">*</span></label>
     <div class="col-md-3 pt-2">
-      <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChange($event)">
+      <nz-date-picker [(ngModel)]="date" (ngModelChange)="onChangetime($event)">
       </nz-date-picker>
     </div>
     <label class="col-md-3 col-form-label" for="formControlRange">Commission%</label>

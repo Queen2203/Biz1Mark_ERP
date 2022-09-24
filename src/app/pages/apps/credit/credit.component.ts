@@ -61,7 +61,10 @@ export class CreditComponent implements OnInit {
   label = false
   isEdit = false 
   isRepaymain = false
-    closeResult = ''
+  closeResult = ''
+  arrayName: string
+  searchField: string
+
   // trans =[];
   trans: any = {
     amount: '',
@@ -267,6 +270,10 @@ export class CreditComponent implements OnInit {
   onChange(e) {
     console.log('date', e)
     this.orderDate = e
+  }
+  date = new Date()
+  onChangetime(e) {
+    console.log(e, moment(e), this.date)
   }
 
   selecteddispatchitem(item) {
@@ -520,4 +527,71 @@ export class CreditComponent implements OnInit {
       this.isRepaymain = !this.isRepaymain
       this.isIndex = !this.isIndex
   }
+  visibleIndex = -1
+  showSubItem(ind) {
+    if (this.visibleIndex === ind) {
+      this.visibleIndex = -1
+    } else {
+      this.visibleIndex = ind
+    }
+  }
+  search = (text$: Observable<string>) =>
+  text$.pipe(
+    map(term =>
+      term === ''
+        ? []
+        : this.CreditDatatest.creditdatatest
+            .filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1)
+            .slice(0, 10),
+    ),
+  )
+c_search = (text$: Observable<string>) => {
+  return text$.pipe(
+    map(term =>
+      term === ''
+        ? []
+        : this[this.arrayName]
+            .filter(v => v[this.searchField].toLowerCase().indexOf(term.toLowerCase()) > -1)
+            .slice(0, 10),
+    ),
+  )
+}
+formatter = (x: { name: string }) => x.name
+
+selectedItem(creditdatatest) {
+  console.log(creditdatatest)
+  // this.storeId = product.Id
+}
+name = 1
+filtersearchtest(): void {
+  if(this.name === 1){
+    this.filteredvalues = this.term
+    ? this.CreditDatatest.creditdatatest.filter(x => x.name.toLowerCase().includes(this.term.toLowerCase()))  
+    : this.CreditDatatest.creditdatatest
+    console.log(this.filteredvalues)
+  }else{
+    this.name
+  }
+}
+acselectedpd: any
+  advsearch = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => {
+        if (term == '') return []
+        if (term.includes('*')) {
+          term = term.replace('*', '')
+          return this.CreditDatatest.filter(
+            x => x.name?.toLowerCase() == term.toLowerCase() && term != '' && !x.ishidden,
+            x => x.location?.toLowerCase() == term.toLowerCase() && term != '' && !x.ishidden,
+          )
+        }
+         else {
+          return this.CreditDatatest.filter(v => v.product.toLowerCase().indexOf(term.toLowerCase()) > -1 ||
+          v.BarCode?.toLowerCase().indexOf(term.toLowerCase()) > -1 ||
+          v.ProductCode?.toLowerCase().indexOf(term.toLowerCase()) > -1 && !v.ishidden)
+        }
+      }),
+    )
+
 }

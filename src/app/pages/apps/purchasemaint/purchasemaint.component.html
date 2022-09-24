@@ -132,8 +132,8 @@
                 </div>
 
             </div>
-            <nz-table #basicTable class="kit__utils__table mb-4" nzSize="small" *ngIf="isShown"
-                [nzData]="filteredvalues">
+            <nz-table #basicTable [nzData]="PurchaseDatatest" class="kit__utils__table mb-4"  nzSize="small" *ngIf="isShown"
+                >
                 <thead>
                     <tr>
                         <th><strong> Bill Id</strong></th>
@@ -165,7 +165,7 @@
                             {{ord.paymentStore}}
                         </td>
                         <td>
-                            {{ord.receivedDate.slice(0,10)}}
+                            {{ord.receivedDate}}
                         </td>
                         <td>
                             &#8377;{{ord.billAmount| number: ".2"}}

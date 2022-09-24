@@ -374,7 +374,7 @@ export class AuthService {
     return this.http.post(this.base_url1 + 'CreditTrx/GetCreditRepayTrx', ord)
   }
   getpurchmaint(data) {
-    return this.http.post(this.base_url1 + 'Purchase/GetPurchaseTrx', data)
+    return this.http.post(this.base_url1 + 'PurchaseTrx/GetPurchaseTrx', data)
   }
   getbillpay(data) {
     return this.http.post(this.base_url1 + 'PurchaseTrx/GetBillPay', data)
@@ -798,5 +798,9 @@ export class AuthService {
   //Queen14-09-2022
   getCredit(compid){
     return this.http.get(this.base_url1 + 'CreditTrx/TestCreditData?CompanyId=' + compid)
+  }
+  //Queen 23-09-2022
+  getpurchase(compid){
+    return this.http.get(this.base_url1 + 'PurchaseTrx/TestPurchaseData?CompanyId=' + compid)
   }
 }
